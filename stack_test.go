@@ -21,6 +21,11 @@ func TestStack(t *testing.T) {
 		if s.Size() != 3 {
 			t.Errorf("s.Size() got %d, want %d", s.Size(), 3)
 		}
+		tv, _ := s.Top()
+		tv2 := tv.(int)
+		if tv2 != 3 {
+			t.Errorf("s.Top() got %d, want %d", tv2, 3)
+		}
 
 		v, err := s.Pop()
 		if v != 3 || err != nil {
@@ -37,6 +42,10 @@ func TestStack(t *testing.T) {
 		v, err = s.Pop()
 		if err != ErrEmptyStack {
 			t.Errorf("s.Pop() want %v", ErrEmptyStack)
+		}
+		v, err = s.Top()
+		if err != ErrEmptyStack {
+			t.Errorf("s.Top() want %v", ErrEmptyStack)
 		}
 	}
 
@@ -87,5 +96,13 @@ func TestStack(t *testing.T) {
 		if err != ErrEmptyStack {
 			t.Errorf("s.Pop() want %v", ErrEmptyStack)
 		}
+	}
+}
+
+func BenchmarkStackPush(b *testing.B) {
+	s := NewStack()
+
+	for i := 0; i < b.N; i++ {
+		s.Push(1)
 	}
 }

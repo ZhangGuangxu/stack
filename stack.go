@@ -73,6 +73,15 @@ func (s *Stack) Pop() (interface{}, error) {
 	return d, nil
 }
 
+// Top returns the value at the top of the stack.
+func (s *Stack) Top() (interface{}, error) {
+	if s.IsEmpty() {
+		return nil, ErrEmptyStack
+	}
+
+	return s.data[s.top], nil
+}
+
 func (s *Stack) show() {
 	if s.IsEmpty() {
 		fmt.Println("empty")
